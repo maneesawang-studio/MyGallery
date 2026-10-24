@@ -285,21 +285,5 @@
     },
     "fields": [],
     "pinned": false
-  },
-  {
-    "id": "sola-sun",
-    "title": "Sola SUN",
-    "subTitle": "none",
-    "year": "2026",
-    "image": "image/projects/54d8009d-4dcc-4aea-8fcf-a6da4762d26c-Solar-SUN-4x.png",
-    "concept": {
-      "th": "",
-      "en": ""
-    },
-    "description": {
-      "th": "",
-      "en": ""
-    },
-    "fields": []
   }
 ]
