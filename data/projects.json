@@ -1,5 +1,22 @@
 [
   {
+    "id": "maneesawang",
+    "title": "Maneesawang Studio",
+    "subTitle": "Maneesawang Studio",
+    "year": "2024",
+    "image": "image/Maneesawang.webp",
+    "concept": {
+      "th": "",
+      "en": ""
+    },
+    "description": {
+      "th": "",
+      "en": ""
+    },
+    "fields": [],
+    "pinned": true
+  },
+  {
     "id": "84th-ku",
     "title": "84th Kasetsart University",
     "subTitle": "Kasetsart University",
@@ -34,7 +51,7 @@
   {
     "id": "av",
     "title": "A&V",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/A&V logo.png",
     "concept": {
@@ -45,7 +62,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "arthur",
@@ -165,22 +183,6 @@
     "subTitle": "MNSW Studio",
     "year": "2026",
     "image": "image/KIALogo.png",
-    "concept": {
-      "th": "",
-      "en": ""
-    },
-    "description": {
-      "th": "",
-      "en": ""
-    },
-    "fields": []
-  },
-  {
-    "id": "maneesawang",
-    "title": "Maneesawang Studio",
-    "subTitle": "Maneesawang Studio",
-    "year": "2024",
-    "image": "image/Maneesawang.webp",
     "concept": {
       "th": "",
       "en": ""
