@@ -566,12 +566,13 @@ textarea:focus-visible {
 .item-info {
     display: flex;
     width: 100%;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
     gap: var(--space-2);
     margin-top: var(--space-2);
     padding: 0 var(--space-4);
+    line-height: var(--line-height-thai);
 }
 
 .item-title {
