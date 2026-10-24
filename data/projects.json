@@ -255,7 +255,7 @@
   {
     "id": "sf",
     "title": "SF",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/SF.webp",
     "concept": {
@@ -266,7 +266,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "wingtach",
