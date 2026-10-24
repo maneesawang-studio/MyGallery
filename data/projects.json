@@ -136,7 +136,7 @@
   {
     "id": "d-digital",
     "title": "D Digital",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/D Digital.png",
     "concept": {
@@ -147,7 +147,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "fc",
