@@ -238,7 +238,7 @@
   {
     "id": "sra",
     "title": "SRA",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/Sentinel Risk Assurance.png",
     "concept": {
@@ -249,7 +249,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "sf",
