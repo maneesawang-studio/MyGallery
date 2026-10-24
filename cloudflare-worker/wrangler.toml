@@ -1,0 +1,10 @@
+name = "mnsw-studio-admin-auth"
+main = "worker.js"
+compatibility_date = "2026-10-24"
+
+[vars]
+GITHUB_OWNER = "maneesawang-studio"
+GITHUB_REPO = "Maneesawang_Gallery"
+GITHUB_BRANCH = "main"
+ADMIN_ORIGIN = "https://maneesawang-studio.github.io"
+ALLOWED_GITHUB_USERS = "maneesawang-studio"

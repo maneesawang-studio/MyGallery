@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <title>จัดการผลงาน | MNSW Studio</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="info/mnsw-studio-logo.png">
+    <link rel="preload" href="font/Prompt/Prompt-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="font/Prompt/Prompt-Medium.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="font/Prompt/Prompt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin/admin.css">
+    <script src="admin/config.js"></script>
+    <script src="admin/admin.js" defer></script>
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <a class="admin-brand" href="./">
+            <img src="info/mnsw-studio-logo.png" alt="" width="36" height="36">
+            <span>MNSW Studio <span class="admin-brand-divider">/</span> จัดการผลงาน</span>
+        </a>
+        <a class="admin-site-link" href="Gallery/">ดูหน้าเว็บไซต์ ↗</a>
+    </header>
+
+    <main class="admin-main">
+        <section id="login-panel" class="admin-login-panel">
+            <p class="admin-eyebrow">CONTENT MANAGEMENT</p>
+            <h1>จัดการผลงานในที่เดียว</h1>
+            <p class="admin-intro">เพิ่ม แก้ไข หรือลบผลงาน พร้อมแนวคิด คำอธิบาย และข้อมูลเพิ่มเติม แล้วบันทึกขึ้น GitHub โดยตรง</p>
+            <button id="login-button" class="btn btn-primary" type="button">เข้าสู่ระบบด้วย GitHub</button>
+            <p id="config-hint" class="admin-config-hint" hidden></p>
+            <p class="admin-security-note">ระบบจะใช้สิทธิ์ GitHub ของบัญชีที่ได้รับอนุญาตเท่านั้น และไม่บันทึก access token ไว้ในเว็บไซต์</p>
+        </section>
+
+        <section id="workspace" class="admin-workspace" hidden>
+            <div class="admin-toolbar">
+                <div>
+                    <p class="admin-eyebrow">PORTFOLIO</p>
+                    <h1>ผลงานทั้งหมด <span id="project-count" class="admin-count"></span></h1>
+                    <p id="signed-in-user" class="admin-user"></p>
+                </div>
+                <div class="admin-toolbar-actions">
+                    <button id="add-project-button" class="btn btn-secondary" type="button">＋ เพิ่มผลงาน</button>
+                    <button id="logout-button" class="admin-text-button" type="button">ออกจากระบบ</button>
+                </div>
+            </div>
+
+            <div id="status-message" class="admin-status" role="status" aria-live="polite" hidden></div>
+
+            <div class="admin-layout">
+                <aside class="admin-project-list-panel" aria-label="รายการผลงาน">
+                    <div class="admin-list-heading">
+                        <h2>รายการผลงาน</h2>
+                        <span>เลือกเพื่อแก้ไข</span>
+                    </div>
+                    <div id="project-list" class="admin-project-list"></div>
+                </aside>
+
+                <section id="editor-panel" class="admin-editor-panel" aria-labelledby="editor-title">
+                    <div class="admin-editor-heading">
+                        <div>
+                            <p class="admin-eyebrow">PROJECT DETAILS</p>
+                            <h2 id="editor-title">เลือกผลงานที่ต้องการแก้ไข</h2>
+                        </div>
+                        <button id="delete-project-button" class="admin-delete-button" type="button" hidden>ลบผลงาน</button>
+                    </div>
+
+                    <form id="project-form" hidden>
+                        <div class="admin-form-grid">
+                            <label class="admin-field">
+                                <span>ชื่อผลงาน <span class="required">*</span></span>
+                                <input name="title" type="text" maxlength="120" required autocomplete="off">
+                            </label>
+                            <label class="admin-field">
+                                <span>ชื่อผู้ว่าจ้าง / แบรนด์</span>
+                                <input name="subTitle" type="text" maxlength="120" autocomplete="off">
+                            </label>
+                            <label class="admin-field admin-field-small">
+                                <span>ปี <span class="required">*</span></span>
+                                <input name="year" type="number" min="1900" max="2200" step="1" required>
+                            </label>
+                            <label class="admin-field admin-field-small">
+                                <span>รหัสผลงาน (URL) <span class="required">*</span></span>
+                                <input name="id" type="text" maxlength="80" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required autocomplete="off">
+                            </label>
+                        </div>
+
+                        <fieldset class="admin-fieldset">
+                            <legend>แนวคิดการออกแบบ</legend>
+                            <div class="admin-form-grid">
+                                <label class="admin-field">
+                                    <span>ภาษาไทย</span>
+                                    <textarea name="conceptTh" rows="3" maxlength="2000"></textarea>
+                                </label>
+                                <label class="admin-field">
+                                    <span>English</span>
+                                    <textarea name="conceptEn" rows="3" maxlength="2000"></textarea>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="admin-fieldset">
+                            <legend>คำอธิบายผลงาน</legend>
+                            <div class="admin-form-grid">
+                                <label class="admin-field">
+                                    <span>ภาษาไทย</span>
+                                    <textarea name="descriptionTh" rows="3" maxlength="4000"></textarea>
+                                </label>
+                                <label class="admin-field">
+                                    <span>English</span>
+                                    <textarea name="descriptionEn" rows="3" maxlength="4000"></textarea>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="admin-fieldset">
+                            <legend>รูปผลงาน</legend>
+                            <div class="admin-image-editor">
+                                <div class="admin-image-preview">
+                                    <img id="image-preview" alt="ตัวอย่างรูปผลงาน" hidden>
+                                    <span id="image-placeholder">ยังไม่ได้เลือกรูป</span>
+                                </div>
+                                <div class="admin-image-controls">
+                                    <label class="admin-field">
+                                        <span>ตำแหน่งไฟล์ในเว็บไซต์</span>
+                                        <input name="image" type="text" maxlength="300" required autocomplete="off">
+                                    </label>
+                                    <label class="admin-upload-button">
+                                        <input id="image-upload" type="file" accept="image/png,image/jpeg,image/webp">
+                                        <span>อัปโหลดรูปขึ้น GitHub</span>
+                                    </label>
+                                    <p>รองรับ PNG, JPG และ WebP ขนาดไม่เกิน 5 MB</p>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="admin-fieldset">
+                            <div class="admin-extra-heading">
+                                <div>
+                                    <legend>ข้อมูลเพิ่มเติม</legend>
+                                    <p>เพิ่มช่องข้อมูลเอง เช่น ประเภทงาน วัสดุ ลูกค้า หรือลิงก์</p>
+                                </div>
+                                <button id="add-field-button" class="admin-small-button" type="button">＋ เพิ่มข้อมูล</button>
+                            </div>
+                            <div id="extra-fields"></div>
+                        </fieldset>
+
+                        <div class="admin-save-row">
+                            <p>เมื่อบันทึก การเปลี่ยนแปลงจะถูก commit ไปยัง branch <code>main</code></p>
+                            <button id="save-project-button" class="btn btn-primary" type="submit">บันทึกขึ้น GitHub</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
