@@ -51,6 +51,23 @@
     "pinned": false
   },
   {
+    "id": "kia",
+    "title": "KIA concept remake",
+    "subTitle": "KIA",
+    "year": "2026",
+    "image": "image/KIALogo.png",
+    "concept": {
+      "th": "",
+      "en": ""
+    },
+    "description": {
+      "th": "",
+      "en": ""
+    },
+    "fields": [],
+    "pinned": false
+  },
+  {
     "id": "a",
     "title": "A",
     "subTitle": "None",
@@ -201,22 +218,6 @@
     },
     "fields": [],
     "pinned": false
-  },
-  {
-    "id": "kia",
-    "title": "KIA",
-    "subTitle": "MNSW Studio",
-    "year": "2026",
-    "image": "image/KIALogo.png",
-    "concept": {
-      "th": "",
-      "en": ""
-    },
-    "description": {
-      "th": "",
-      "en": ""
-    },
-    "fields": []
   },
   {
     "id": "s",
