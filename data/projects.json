@@ -18,7 +18,7 @@
   },
   {
     "id": "84th-ku",
-    "title": "84th Kasetsart University",
+    "title": "[ Contest ] 84th Kasetsart University",
     "subTitle": "Kasetsart University",
     "year": "2026",
     "image": "image/84th KU English Primary.png",
@@ -30,7 +30,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "a",
