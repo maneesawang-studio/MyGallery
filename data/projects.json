@@ -170,7 +170,7 @@
   {
     "id": "flame",
     "title": "Flame",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/flame.png",
     "concept": {
@@ -181,7 +181,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "kia",
