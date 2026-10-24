@@ -48,21 +48,58 @@
 
 :root {
     color-scheme: light;
-    font-family: "Outfit", "Prompt", sans-serif;
-    color: #111111;
+    font-family: var(--font-family-sans);
+    color: var(--color-text);
     background:
         radial-gradient(ellipse at 35% 45%, #eff8fc 0%, #f5f5f5 68%) fixed;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    --color-text: #111111;
+    --font-family-sans: "Outfit", "Prompt", sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-display: clamp(2.5rem, 6vw, 4.5rem);
+    --font-size-page-title: clamp(2rem, 4.5vw, 3.5rem);
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --line-height-tight: 1.1;
+    --line-height-heading: 1.25;
+    --line-height-body: 1.65;
+    --line-height-thai: 1.8;
+    --letter-spacing-tight: -0.04em;
+    --letter-spacing-normal: 0;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --color-ink: #111111;
+    --color-canvas: #f5f5f5;
+    --color-text: var(--color-ink);
     --color-muted: #666b70;
     --color-surface: rgba(255, 255, 255, 0.78);
     --color-border: rgba(17, 17, 17, 0.08);
+    --color-focus: #315978;
     --shadow-soft: 0 8px 24px rgba(17, 17, 17, 0.06);
-    --radius-card: 24px;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 28px;
+    --radius-pill: 999px;
+    --radius-card: var(--radius-lg);
     --content-width: 1440px;
-    --page-gutter: 16px;
+    --page-gutter: clamp(16px, 3vw, 32px);
     --motion: 180ms ease;
 }
 
@@ -70,12 +107,29 @@
     box-sizing: border-box;
 }
 
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
 html {
     min-width: 320px;
     min-height: 100%;
     overflow-x: hidden;
     scrollbar-gutter: stable;
-    font-family: "Outfit", "Prompt", sans-serif;
+    font-family: var(--font-family-sans);
+    font-size: 16px;
+    line-height: var(--line-height-body);
+}
+
+html:lang(th) {
+    line-height: var(--line-height-thai);
+}
+
+html:lang(th) body {
+    line-height: var(--line-height-thai);
 }
 
 html:lang(th) .main-title,
@@ -99,6 +153,8 @@ body {
     overflow-x: hidden;
     color: var(--color-text);
     font-family: inherit;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-body);
 }
 
 img {
@@ -111,8 +167,16 @@ a {
 }
 
 a:focus-visible {
-    outline: 2px solid #111111;
+    outline: 2px solid var(--color-focus);
     outline-offset: 8px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
 }
 
 /* Shared navigation */
@@ -154,12 +218,12 @@ a:focus-visible {
 
 .nav-menu {
     display: flex;
-    height: 48+4px;
+    min-height: 56px;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     padding: 4px;
     border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background: var(--color-surface);
     box-shadow: var(--shadow-soft);
     backdrop-filter: blur(24px);
@@ -173,14 +237,14 @@ a:focus-visible {
 .nav-item {
     display: inline-flex;
     width: max-content;
-    height: 48px;
+    min-height: 48px;
     align-items: center;
     justify-content: center;
-    padding: 0 24px;
-    border-radius: 999px;
+    padding: 0 var(--space-6);
+    border-radius: var(--radius-pill);
     color: var(--color-text);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     text-decoration: none;
     transition: background-color var(--motion), color var(--motion), box-shadow var(--motion);
 }
@@ -206,12 +270,12 @@ a:focus-visible {
     justify-content: center;
     padding: 0 16px;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     background: transparent;
     color: var(--color-text);
     font: inherit;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     cursor: pointer;
     transition: background-color var(--motion), box-shadow var(--motion);
 }
@@ -226,17 +290,17 @@ a:focus-visible {
 .main-heading {
     margin: 0;
     color: var(--color-text);
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 600;
-    letter-spacing: -0.055em;
-    line-height: 1.02;
+    font-size: var(--font-size-display);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
 }
 
 .sub-title {
     margin: 0;
     color: var(--color-muted);
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     letter-spacing: 0.04em;
     line-height: 1.4;
     text-transform: uppercase;
@@ -246,9 +310,9 @@ a:focus-visible {
 .main-description,
 .attr-text {
     color: var(--color-muted);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.7;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-body);
 }
 
 /* Shared buttons: consistent dimensions, different visual variants */
@@ -257,14 +321,14 @@ a:focus-visible {
     min-height: 48px;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    padding: 0 24px;
+    gap: var(--space-1);
+    padding: 0 var(--space-6);
     border: 1px solid rgba(255, 255, 255, 0.78);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font: inherit;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-heading);
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
@@ -333,22 +397,22 @@ a:focus-visible {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-3);
 }
 
 /* Shared footer */
 .footer-info {
     position: fixed;
     z-index: 999;
-    bottom: 24px;
+    bottom: var(--space-6);
     left: 50%;
     display: flex;
     width: min(100%, var(--content-width));
     justify-content: space-between;
     padding: 0 var(--page-gutter);
     color: var(--color-text);
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-heading);
     pointer-events: none;
     transform: translateX(-50%);
 }
@@ -384,9 +448,9 @@ a:focus-visible {
     min-height: 100svh;
     align-items: center;
     justify-content: center;
-    gap: clamp(32px, 5vw, 72px);
+    gap: clamp(var(--space-8), 5vw, var(--space-16));
     margin: 0 auto;
-    padding: 96px var(--page-gutter);
+    padding: var(--space-16) var(--page-gutter);
 }
 
 .hero-image-area,
@@ -420,19 +484,19 @@ a:focus-visible {
 
 .hero-text-area .description {
     max-width: 480px;
-    margin: 24px 0 32px;
+    margin: var(--space-6) 0 var(--space-8);
 }
 
 /* Gallery */
 .page-gallery {
     width: min(100%, var(--content-width));
     margin: 0 auto;
-    padding: 128px 16px 48px;
+    padding: clamp(104px, 10vw, 128px) var(--page-gutter) var(--space-12);
 }
 
 .gallery-header {
     width: min(100%, 720px);
-    margin: 0 auto 40px;
+    margin: 0 auto var(--space-10);
     padding: 0;
     text-align: center;
 }
@@ -454,8 +518,8 @@ a:focus-visible {
     display: grid;
     width: 100%;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 40px 8px;
-    padding: 16px 0;
+    gap: var(--space-10) var(--space-2);
+    padding: var(--space-4) 0;
 }
 
 .gallery-item {
@@ -508,9 +572,9 @@ a:focus-visible {
     align-items: baseline;
     justify-content: space-between;
     flex-wrap: nowrap;
-    gap: 8px;
-    margin-top: 10px;
-    padding: 0 16px;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding: 0 var(--space-4);
 }
 
 .item-title {
@@ -518,8 +582,8 @@ a:focus-visible {
     flex: 1 1 auto;
     overflow: hidden;
     color: var(--color-text);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -527,15 +591,15 @@ a:focus-visible {
 .item-year {
     flex: 0 0 auto;
     color: var(--color-muted);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
 }
 
 /* About */
 .page-about {
     width: min(100%, var(--content-width));
     margin: 0 auto;
-    padding: 128px 24px 80px;
+    padding: clamp(104px, 10vw, 128px) var(--page-gutter) 80px;
 }
 
 .about-section {
@@ -543,7 +607,7 @@ a:focus-visible {
     width: min(100%, 1120px);
     flex-direction: column;
     align-items: stretch;
-    gap: clamp(64px, 9vw, 120px);
+    gap: clamp(var(--space-12), 9vw, 120px);
     margin: 0 auto;
 }
 
@@ -551,7 +615,7 @@ a:focus-visible {
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
     align-items: center;
-    gap: clamp(40px, 8vw, 112px);
+    gap: clamp(var(--space-8), 8vw, 112px);
 }
 
 .about-copy {
@@ -569,9 +633,9 @@ a:focus-visible {
     max-width: 760px;
     margin: 0;
     font-size: clamp(40px, 6vw, 72px);
-    font-weight: 600;
-    letter-spacing: -0.055em;
-    line-height: 1.02;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
 }
 
 .about-intro,
@@ -580,8 +644,8 @@ a:focus-visible {
 .about-process-list p,
 .about-contact-copy > p:last-child {
     color: var(--color-muted);
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-body);
 }
 
 .about-intro {
@@ -592,7 +656,7 @@ a:focus-visible {
 .about-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: var(--space-3);
     margin-top: 28px;
 }
 
@@ -608,7 +672,7 @@ a:focus-visible {
     aspect-ratio: 4 / 5;
     overflow: hidden;
     border: 1px solid var(--color-border);
-    border-radius: 24px;
+    border-radius: var(--radius-lg);
     background: #e8edf0;
     box-shadow: var(--shadow-soft);
 }
@@ -627,13 +691,13 @@ a:focus-visible {
 }
 
 .about-profile figcaption strong {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
 }
 
 .about-profile figcaption span {
     color: var(--color-muted);
-    font-size: 14px;
+    font-size: var(--font-size-sm);
 }
 
 .about-services,
@@ -650,16 +714,16 @@ a:focus-visible {
 .about-section-heading h2,
 .about-contact-copy h2 {
     margin: 0;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
+    font-size: clamp(var(--font-size-2xl), 4vw, 2.75rem);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-heading);
 }
 
 .about-service-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: var(--space-6);
 }
 
 .about-service {
@@ -670,15 +734,15 @@ a:focus-visible {
 .about-index {
     color: #858b91;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
 }
 
 .about-service h3,
 .about-process-list h3 {
     margin: 14px 0 8px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-normal);
 }
 
 .about-service p,
@@ -694,7 +758,7 @@ a:focus-visible {
 .about-process-list {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 24px;
+    gap: var(--space-6);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -708,10 +772,10 @@ a:focus-visible {
 .about-contact {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(32px, 6vw, 80px);
+    gap: clamp(var(--space-6), 6vw, 80px);
     padding: clamp(28px, 5vw, 56px);
     border: 1px solid var(--color-border);
-    border-radius: 28px;
+    border-radius: var(--radius-xl);
     background: rgba(255, 255, 255, 0.72);
     box-shadow: var(--shadow-soft);
 }
@@ -745,12 +809,12 @@ a:focus-visible {
 
 .about-contact-links a span {
     color: var(--color-muted);
-    font-size: 14px;
+    font-size: var(--font-size-sm);
 }
 
 .about-contact-links a strong {
     width: fit-content;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 500;
     overflow-wrap: anywhere;
 }
@@ -769,9 +833,9 @@ a:focus-visible {
     min-height: 100svh;
     grid-template-columns: minmax(0, 1fr) minmax(0, min(40vw, 504px)) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(24px, 4vw, 64px);
+    gap: clamp(var(--space-6), 4vw, var(--space-16));
     margin: 0 auto;
-    padding: 72px 16px;
+    padding: 72px var(--page-gutter);
 }
 
 .project-meta-area {
@@ -797,7 +861,7 @@ a:focus-visible {
 }
 
 .project-extra-content section {
-    padding: 20px;
+    padding: var(--space-5);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     background: var(--color-surface);
@@ -806,7 +870,7 @@ a:focus-visible {
 .project-extra-content h2 {
     margin: 0 0 8px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     letter-spacing: normal;
     line-height: 1.5;
 }
@@ -878,10 +942,10 @@ a:focus-visible {
 .project-detail-title {
     margin: 0;
     color: var(--color-text);
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 600;
-    letter-spacing: -0.055em;
-    line-height: 1.02;
+    font-size: var(--font-size-page-title);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-tight);
 }
 
 .project-image-area {

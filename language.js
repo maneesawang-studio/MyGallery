@@ -161,7 +161,7 @@ const applyLanguage = language => {
     window.dispatchEvent(new CustomEvent('languagechange', { detail: { language } }));
 };
 
-let currentLanguage = 'th';
+let currentLanguage = 'en';
 try {
     const savedLanguage = window.localStorage.getItem('mnsw-language');
     if (savedLanguage && Object.prototype.hasOwnProperty.call(translations, savedLanguage)) {
