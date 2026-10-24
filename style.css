@@ -847,11 +847,10 @@ textarea:focus-visible {
 
 .project-extra-content {
     display: grid;
-    grid-column: 1 / -1;
-    grid-row: 2;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
-    align-self: start;
+    margin-top: clamp(24px, 3vw, 40px);
 }
 
 .project-extra-content[hidden] {
@@ -1042,7 +1041,6 @@ textarea:focus-visible {
 
     .project-image-area,
     .project-meta-area,
-    .project-extra-content,
     .project-nav-area {
         grid-column: 1;
     }
@@ -1062,10 +1060,6 @@ textarea:focus-visible {
 
     .project-meta-area {
         grid-row: 2;
-    }
-
-    .project-extra-content {
-        grid-row: 3;
     }
 
     .project-nav-area {

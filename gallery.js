@@ -72,13 +72,12 @@ function renderProjectDetail(projectId) {
     const yearElement = document.createElement('div');
     yearElement.id = 'projYear';
     yearElement.className = 'year-value';
-    infoBlock.append(subtitleElement, titleElement, yearLabel, yearElement);
-    metaArea.append(infoBlock);
-
     const contentSection = document.createElement('div');
     contentSection.id = 'project-extra-content';
     contentSection.className = 'project-extra-content';
     contentSection.hidden = true;
+    infoBlock.append(subtitleElement, titleElement, yearLabel, yearElement, contentSection);
+    metaArea.append(infoBlock);
 
     const imageArea = document.createElement('div');
     imageArea.className = 'project-image-area';
@@ -94,7 +93,7 @@ function renderProjectDetail(projectId) {
     btnNext.className = 'btn btn-secondary btn-next-project';
     projectNavigation.append(btnNext);
 
-    detailContainer.replaceChildren(backLink, metaArea, contentSection, imageArea, projectNavigation);
+    detailContainer.replaceChildren(backLink, metaArea, imageArea, projectNavigation);
 
     const currentProject = galleryData[currentIndex];
     const canonicalUrl = `https://maneesawang-studio.github.io/MyGallery/ProjectDetail/?id=${encodeURIComponent(currentProject.id)}`;
