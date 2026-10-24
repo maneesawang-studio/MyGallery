@@ -221,7 +221,7 @@
   {
     "id": "s",
     "title": "S",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2025",
     "image": "image/S.webp",
     "concept": {
@@ -232,7 +232,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "sra",
