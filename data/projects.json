@@ -68,7 +68,7 @@
   {
     "id": "arthur",
     "title": "Arthur",
-    "subTitle": "MNSW Studio",
+    "subTitle": "Maneesawang Studio",
     "year": "2024",
     "image": "image/Arthur.png",
     "concept": {
@@ -79,7 +79,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "bangpost",
