@@ -102,7 +102,7 @@
   {
     "id": "bdt",
     "title": "BDT",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/BDT.png",
     "concept": {
@@ -113,7 +113,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "crown-street",
