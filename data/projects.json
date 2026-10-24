@@ -119,7 +119,7 @@
   {
     "id": "crown-street",
     "title": "Crown Street",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2025",
     "image": "image/Crown-streetLogo.png",
     "concept": {
@@ -130,7 +130,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "d-digital",
