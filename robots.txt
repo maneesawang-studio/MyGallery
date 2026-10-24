@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maneesawang-studio.github.io/Maneesawang_Gallery/sitemap.xml
+Sitemap: https://maneesawang-studio.github.io/MyGallery/sitemap.xml

@@ -97,7 +97,7 @@ function renderProjectDetail(projectId) {
     detailContainer.replaceChildren(backLink, metaArea, contentSection, imageArea, projectNavigation);
 
     const currentProject = galleryData[currentIndex];
-    const canonicalUrl = `https://maneesawang-studio.github.io/Maneesawang_Gallery/ProjectDetail/?id=${encodeURIComponent(currentProject.id)}`;
+    const canonicalUrl = `https://maneesawang-studio.github.io/MyGallery/ProjectDetail/?id=${encodeURIComponent(currentProject.id)}`;
     const canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink) canonicalLink.href = canonicalUrl;
 
@@ -159,7 +159,7 @@ function renderProjectDetail(projectId) {
         const pageDescription = language === 'th'
             ? (getProjectText(currentProject.description, language) || `ชมผลงาน ${projectTitle} โดย MNSW Studio ผลงานออกแบบโลโก้และอัตลักษณ์แบรนด์ ปี ${currentProject.year}`)
             : (getProjectText(currentProject.description, language) || `Explore the ${projectTitle} project by MNSW Studio. View selected logo and visual identity work created in ${currentProject.year}.`);
-        const imageUrl = `https://maneesawang-studio.github.io/Maneesawang_Gallery/${currentProject.image.split('/').map(encodeURIComponent).join('/')}`;
+        const imageUrl = `https://maneesawang-studio.github.io/MyGallery/${currentProject.image.split('/').map(encodeURIComponent).join('/')}`;
         document.title = pageTitle;
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription) metaDescription.content = pageDescription;
@@ -195,7 +195,7 @@ function renderProjectDetail(projectId) {
                 creator: {
                     '@type': 'Organization',
                     name: 'MNSW Studio',
-                    url: 'https://maneesawang-studio.github.io/Maneesawang_Gallery/'
+                    url: 'https://maneesawang-studio.github.io/MyGallery/'
                 }
             });
         }
