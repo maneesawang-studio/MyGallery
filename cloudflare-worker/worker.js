@@ -1,6 +1,6 @@
 const API_VERSION = '2022-11-28';
 const PROJECTS_PATH = 'data/projects.json';
-const SITE_BASE_URL = 'https://maneesawang-studio.github.io/Maneesawang_Gallery/';
+const SITE_BASE_URL = 'https://maneesawang-studio.github.io/MyGallery/';
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Map([
     ['image/jpeg', 'jpg'],
