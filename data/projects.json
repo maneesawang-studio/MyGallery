@@ -203,8 +203,8 @@
   },
   {
     "id": "mass-com",
-    "title": "Mass Com",
-    "subTitle": "MNSW Studio",
+    "title": "[ Contest ] Mass Com",
+    "subTitle": "MASS communication Chiangmai Univesity",
     "year": "2026",
     "image": "image/Mass Com.png",
     "concept": {
@@ -215,7 +215,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "s",
