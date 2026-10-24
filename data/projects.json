@@ -272,7 +272,7 @@
   {
     "id": "wingtach",
     "title": "Wingtach",
-    "subTitle": "MNSW Studio",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/Wingtach.png",
     "concept": {
@@ -283,7 +283,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "sola-sun",
