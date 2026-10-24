@@ -44,8 +44,8 @@ function renderGallery() {
 }
 
 function renderProjectDetail(projectId) {
-    const imgDisplay = document.getElementById('projImage');
-    if (!imgDisplay) return; // ถ้าไม่ใช่หน้าดีเทลให้ข้ามไป
+    const detailContainer = document.querySelector('.project-detail-container');
+    if (!detailContainer) return;
 
     const currentIndex = galleryData.findIndex(p => p.id === projectId);
     if (currentIndex === -1) {
@@ -53,17 +53,59 @@ function renderProjectDetail(projectId) {
         return;
     }
 
+    const backLink = document.createElement('a');
+    backLink.href = 'Gallery/';
+    backLink.className = 'btn btn-secondary btn-all-work';
+
+    const metaArea = document.createElement('div');
+    metaArea.className = 'project-meta-area';
+    const infoBlock = document.createElement('div');
+    infoBlock.className = 'project-info-block';
+    const subtitleElement = document.createElement('div');
+    subtitleElement.id = 'projSubTitle';
+    subtitleElement.className = 'sub-title';
+    const titleElement = document.createElement('h1');
+    titleElement.id = 'projTitle';
+    titleElement.className = 'project-detail-title';
+    const yearLabel = document.createElement('div');
+    yearLabel.className = 'year-label';
+    const yearElement = document.createElement('div');
+    yearElement.id = 'projYear';
+    yearElement.className = 'year-value';
+    infoBlock.append(subtitleElement, titleElement, yearLabel, yearElement);
+    metaArea.append(infoBlock);
+
+    const contentSection = document.createElement('div');
+    contentSection.id = 'project-extra-content';
+    contentSection.className = 'project-extra-content';
+    contentSection.hidden = true;
+
+    const imageArea = document.createElement('div');
+    imageArea.className = 'project-image-area';
+    const imgDisplay = document.createElement('img');
+    imgDisplay.id = 'projImage';
+    imgDisplay.className = 'project-main-img';
+    imageArea.append(imgDisplay);
+
+    const projectNavigation = document.createElement('div');
+    projectNavigation.className = 'project-nav-area';
+    const btnNext = document.createElement('a');
+    btnNext.id = 'btnNextProject';
+    btnNext.className = 'btn btn-secondary btn-next-project';
+    projectNavigation.append(btnNext);
+
+    detailContainer.replaceChildren(backLink, metaArea, contentSection, imageArea, projectNavigation);
+
     const currentProject = galleryData[currentIndex];
     const canonicalUrl = `https://maneesawang-studio.github.io/Maneesawang_Gallery/ProjectDetail/?id=${encodeURIComponent(currentProject.id)}`;
     const canonicalLink = document.querySelector('link[rel="canonical"]');
     if (canonicalLink) canonicalLink.href = canonicalUrl;
 
-    const titleElement = document.getElementById('projTitle');
-    const subtitleElement = document.getElementById('projSubTitle');
-    const yearElement = document.getElementById('projYear');
-    const contentSection = document.getElementById('project-extra-content');
-
     const renderProjectContent = language => {
+        backLink.textContent = language === 'th' ? '‹ ผลงานทั้งหมด' : '‹ All projects';
+        yearLabel.textContent = language === 'th' ? 'ปี' : 'Year';
+        btnNext.textContent = language === 'th' ? 'ผลงานถัดไป ›' : 'Next project ›';
+
         const projectTitle = getProjectText(currentProject.title, language);
         const concept = getProjectText(currentProject.concept, language);
         const description = getProjectText(currentProject.description, language);
@@ -165,16 +207,9 @@ function renderProjectDetail(projectId) {
         updateProjectMetadata(event.detail.language);
         renderProjectContent(event.detail.language);
     });
-    window.addEventListener('languagechange', event => {
-        updateProjectMetadata(event.detail.language);
-        renderProjectContent(event.detail.language);
-    });
 
-    const btnNext = document.getElementById('btnNextProject');
-    if (btnNext) {
-        const nextIndex = (currentIndex + 1) % galleryData.length;
-        btnNext.href = `ProjectDetail/?id=${galleryData[nextIndex].id}`;
-    }
+    const nextIndex = (currentIndex + 1) % galleryData.length;
+    btnNext.href = `ProjectDetail/?id=${encodeURIComponent(galleryData[nextIndex].id)}`;
 }
 
 async function loadProjects() {
