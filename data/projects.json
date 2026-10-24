@@ -153,7 +153,7 @@
   {
     "id": "fc",
     "title": "FC",
-    "subTitle": "Maneesawang Penname",
+    "subTitle": "None",
     "year": "2026",
     "image": "image/FC.png",
     "concept": {
@@ -164,7 +164,8 @@
       "th": "",
       "en": ""
     },
-    "fields": []
+    "fields": [],
+    "pinned": false
   },
   {
     "id": "flame",
