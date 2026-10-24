@@ -215,7 +215,7 @@
 
 .admin-list-heading {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 8px;
     padding: 0 8px 12px;
@@ -227,9 +227,26 @@
     font-weight: 600;
 }
 
-.admin-list-heading span {
-    color: #81888d;
+.admin-save-order-button {
+    padding: 6px 9px;
+    border: 1px solid rgba(17, 17, 17, 0.12);
+    border-radius: 999px;
+    background: #fff;
+    color: #343b40;
+    font: inherit;
     font-size: 11px;
+    cursor: pointer;
+}
+
+.admin-save-order-button:disabled {
+    color: #9aa0a4;
+    cursor: not-allowed;
+}
+
+.admin-list-help {
+    margin: -5px 8px 10px;
+    color: #81888d;
+    font-size: 10px;
 }
 
 .admin-project-list {
@@ -239,18 +256,12 @@
 
 .admin-project-item {
     display: grid;
-    width: 100%;
-    grid-template-columns: 48px minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 10px;
-    padding: 9px;
+    gap: 4px;
     border: 1px solid transparent;
     border-radius: 14px;
     background: transparent;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
 }
 
 .admin-project-item:hover {
@@ -262,7 +273,23 @@
     background: #f0f3f5;
 }
 
-.admin-project-item img,
+.admin-project-select {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 9px;
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-project-select img,
 .admin-project-placeholder {
     display: grid;
     width: 48px;
@@ -273,8 +300,60 @@
     object-fit: contain;
 }
 
-.admin-project-item img {
+.admin-project-select img {
     padding: 5px;
+}
+
+.admin-project-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-right: 5px;
+}
+
+.admin-project-pin,
+.admin-project-move {
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #737b81;
+    font: inherit;
+    cursor: pointer;
+}
+
+.admin-project-pin {
+    padding: 5px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.admin-project-pin[aria-pressed="true"] {
+    background: #e8f0ec;
+    color: #17684f;
+}
+
+.admin-project-move {
+    width: 24px;
+    height: 28px;
+    font-size: 15px;
+}
+
+.admin-project-pin:hover,
+.admin-project-move:hover,
+.admin-project-select:hover {
+    background: rgba(17, 17, 17, 0.06);
+}
+
+.admin-project-item[draggable="true"] {
+    cursor: grab;
+}
+
+.admin-project-item[draggable="true"]:active {
+    cursor: grabbing;
+}
+
+.admin-project-item[draggable="false"] {
+    cursor: default;
 }
 
 .admin-project-copy {

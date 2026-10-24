@@ -134,10 +134,7 @@ html:lang(th) body {
 
 html:lang(th) .main-title,
 html:lang(th) .main-heading,
-html:lang(th) .about-title,
-html:lang(th) .project-detail-title,
-html:lang(th) .sub-title,
-html:lang(th) .project-info-block .year-label {
+html:lang(th) .about-title {
     letter-spacing: normal;
     line-height: 1.35;
     text-transform: none;

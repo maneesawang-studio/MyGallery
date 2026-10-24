@@ -16,7 +16,7 @@ function renderGallery() {
     const projectAlt = language === 'th'
         ? 'ผลงานออกแบบโลโก้และอัตลักษณ์แบรนด์โดย MNSW Studio'
         : 'logo design and visual identity project by MNSW Studio';
-    galleryData.forEach(item => {
+    [...galleryData].sort((first, second) => Number(second.pinned === true) - Number(first.pinned === true)).forEach(item => {
         const link = document.createElement('a');
         link.href = `ProjectDetail/?id=${encodeURIComponent(item.id)}`;
         link.className = 'gallery-item';
@@ -218,7 +218,8 @@ async function loadProjects() {
     const projects = await response.json();
     if (!Array.isArray(projects) || projects.some(project =>
         !project || typeof project.id !== 'string' || typeof project.title !== 'string' ||
-        typeof project.year !== 'string' || typeof project.image !== 'string'
+        typeof project.year !== 'string' || typeof project.image !== 'string' ||
+        (project.pinned !== undefined && typeof project.pinned !== 'boolean')
     )) {
         throw new Error('รูปแบบข้อมูลใน data/projects.json ไม่ถูกต้อง');
     }
@@ -228,6 +229,7 @@ async function loadProjects() {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         galleryData = await loadProjects();
+        galleryData.sort((first, second) => Number(second.pinned === true) - Number(first.pinned === true));
         renderGallery();
         const projectId = new URLSearchParams(window.location.search).get('id') || galleryData[0]?.id;
         if (projectId) renderProjectDetail(projectId);

@@ -330,10 +330,11 @@ async function handleApi(request, env, origin) {
                 projectIds.has(project.id) || typeof project.title !== 'string' || !project.title.trim() ||
                 project.title.length > 120 || typeof project.subTitle !== 'string' || project.subTitle.length > 120 ||
                 typeof project.year !== 'string' || !/^\d{4}$/.test(project.year) ||
-                typeof project.image !== 'string' || !/^image\/[a-zA-Z0-9_./ -]+\.(?:png|jpe?g|webp)$/i.test(project.image) ||
+                typeof project.image !== 'string' || !/^image\/[a-zA-Z0-9_./ &-]+\.(?:png|jpe?g|webp)$/i.test(project.image) ||
                 !project.concept || typeof project.concept !== 'object' || Array.isArray(project.concept) ||
                 !project.description || typeof project.description !== 'object' || Array.isArray(project.description) ||
-                !Array.isArray(project.fields) || project.fields.length > 50) {
+                !Array.isArray(project.fields) || project.fields.length > 50 ||
+                (project.pinned !== undefined && typeof project.pinned !== 'boolean')) {
                 return jsonResponse({ error: `Project at index ${index} contains invalid data.` }, 400, origin);
             }
             projectIds.add(project.id);

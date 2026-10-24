@@ -46,4 +46,4 @@ Commit and publish the site to GitHub Pages. Open the admin URL, sign in with an
 
 ## Project content
 
-Projects are stored in `data/projects.json`. Each entry has a title, subtitle/client, year, image path, Thai and English concept and description, and a `fields` array for additional bilingual label/value pairs. The project detail page displays the concept, description, and any additional fields that have values.
+Projects are stored in `data/projects.json`. Each entry has a title, subtitle/client, year, image path, Thai and English concept and description, and a `fields` array for additional bilingual label/value pairs. The project detail page displays the concept, description, and any additional fields that have values. The admin project list can be reordered by dragging or using the up/down buttons; pinned projects are shown first on the public gallery. Save ordering changes with the list's “บันทึกลำดับ” button.

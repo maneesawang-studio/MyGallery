@@ -7,6 +7,7 @@
     const statusMessage = document.getElementById('status-message');
     const projectList = document.getElementById('project-list');
     const projectCount = document.getElementById('project-count');
+    const saveOrderButton = document.getElementById('save-order-button');
     const signedInUser = document.getElementById('signed-in-user');
     const projectForm = document.getElementById('project-form');
     const editorTitle = document.getElementById('editor-title');
@@ -27,6 +28,9 @@
     let popupWatch = 0;
     let autoSlug = false;
     let hasUnsavedChanges = false;
+    let orderChanged = false;
+    let draggedProjectId = null;
+    let isBusy = false;
     let statusTimer = 0;
 
     const apiUrl = typeof config?.apiUrl === 'string' ? config.apiUrl.replace(/\/+$/, '') : '';
@@ -52,11 +56,19 @@
     };
 
     const setBusy = busy => {
+        isBusy = busy;
         saveButton.disabled = busy;
         addProjectButton.disabled = busy;
         loginButton.disabled = busy;
         deleteButton.disabled = busy;
         uploadInput.disabled = busy;
+        saveOrderButton.disabled = busy || !orderChanged || hasUnsavedChanges;
+        projectList.querySelectorAll('button').forEach(button => {
+            button.disabled = busy;
+        });
+        projectList.querySelectorAll('.admin-project-item').forEach(item => {
+            item.draggable = !busy;
+        });
     };
 
     const markUnsaved = () => {
@@ -166,14 +178,18 @@
                 throw new Error(`กรุณาระบุรูปผลงาน ${project.title}`);
             }
             if (!Array.isArray(project.fields)) throw new Error(`รูปแบบข้อมูลเพิ่มเติมของ ${project.title} ไม่ถูกต้อง`);
+            if (project.pinned !== undefined && typeof project.pinned !== 'boolean') {
+                throw new Error(`สถานะปักหมุดของ ${project.title} ไม่ถูกต้อง`);
+            }
         });
     };
 
     const loadProjects = async () => {
         const result = await apiRequest('/api/projects');
         validateProjects(result);
-        projects = result;
+        projects = [...result].sort((first, second) => Number(second.pinned === true) - Number(first.pinned === true));
         hasUnsavedChanges = false;
+        orderChanged = false;
         renderProjectList();
         projectCount.textContent = `(${projects.length})`;
         workspace.hidden = false;
@@ -183,9 +199,14 @@
     const renderProjectList = () => {
         projectList.replaceChildren();
         projects.forEach(project => {
-            const button = makeElement('button', 'admin-project-item');
-            button.type = 'button';
-            button.setAttribute('aria-current', String(project.id === selectedId));
+            const item = makeElement('div', 'admin-project-item');
+            item.dataset.projectId = project.id;
+            item.dataset.pinned = String(project.pinned === true);
+            item.setAttribute('aria-current', String(project.id === selectedId));
+            item.draggable = !isBusy;
+            const selectButton = makeElement('button', 'admin-project-select');
+            selectButton.type = 'button';
+            selectButton.setAttribute('aria-current', String(project.id === selectedId));
             const image = document.createElement('img');
             image.src = project.image;
             image.alt = '';
@@ -199,10 +220,120 @@
                 makeElement('strong', '', project.title),
                 makeElement('span', '', project.subTitle || 'MNSW Studio')
             );
-            button.append(image, copy, makeElement('span', 'admin-project-year', String(project.year)));
-            button.addEventListener('click', () => selectProject(project.id));
-            projectList.append(button);
+            selectButton.append(image, copy, makeElement('span', 'admin-project-year', String(project.year)));
+            selectButton.addEventListener('click', () => selectProject(project.id));
+
+            const actions = makeElement('span', 'admin-project-actions');
+            const pinButton = makeElement('button', 'admin-project-pin', project.pinned === true ? 'ปักหมุดแล้ว' : 'ปักหมุด');
+            pinButton.type = 'button';
+            pinButton.setAttribute('aria-pressed', String(project.pinned === true));
+            pinButton.setAttribute('aria-label', `${project.pinned === true ? 'เลิกปักหมุด' : 'ปักหมุด'} ${project.title}`);
+            pinButton.addEventListener('click', () => toggleProjectPin(project.id));
+            const moveUpButton = makeElement('button', 'admin-project-move', '↑');
+            moveUpButton.type = 'button';
+            moveUpButton.setAttribute('aria-label', `เลื่อน ${project.title} ขึ้น`);
+            moveUpButton.addEventListener('click', () => moveProject(project.id, -1));
+            const moveDownButton = makeElement('button', 'admin-project-move', '↓');
+            moveDownButton.type = 'button';
+            moveDownButton.setAttribute('aria-label', `เลื่อน ${project.title} ลง`);
+            moveDownButton.addEventListener('click', () => moveProject(project.id, 1));
+            actions.append(pinButton, moveUpButton, moveDownButton);
+            item.append(selectButton, actions);
+            item.addEventListener('dragover', event => {
+                if (draggedProjectId && isSamePinGroup(draggedProjectId, project.id)) event.preventDefault();
+            });
+            item.addEventListener('drop', event => {
+                event.preventDefault();
+                if (!draggedProjectId || draggedProjectId === project.id) return;
+                const targetIndex = projects.findIndex(item => item.id === project.id);
+                moveProjectToIndex(draggedProjectId, targetIndex);
+            });
+            projectList.append(item);
         });
+        projectList.querySelectorAll('.admin-project-item').forEach(item => {
+            const project = projects.find(entry => entry.id === item.dataset.projectId);
+            if (!project) return;
+            item.draggable = true;
+            item.addEventListener('dragstart', event => {
+                if (hasUnsavedChanges || isBusy) {
+                    event.preventDefault();
+                    showStatus('กรุณาบันทึกหรือยกเลิกการแก้ไขก่อนจัดลำดับผลงาน', 'info');
+                    return;
+                }
+                draggedProjectId = project.id;
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', project.id);
+            });
+            item.addEventListener('dragend', () => {
+                draggedProjectId = null;
+            });
+        });
+        projectList.querySelectorAll('button').forEach(button => {
+            button.disabled = isBusy;
+        });
+        saveOrderButton.disabled = orderChanged === false || hasUnsavedChanges;
+    };
+
+    const isSamePinGroup = (firstId, secondId) => {
+        const first = projects.find(project => project.id === firstId);
+        const second = projects.find(project => project.id === secondId);
+        return first && second && (first.pinned === true) === (second.pinned === true);
+    };
+
+    const moveProjectToIndex = (id, targetIndex) => {
+        if (hasUnsavedChanges) {
+            showStatus('กรุณาบันทึกหรือยกเลิกการแก้ไขก่อนจัดลำดับผลงาน', 'info');
+            return;
+        }
+        const sourceIndex = projects.findIndex(project => project.id === id);
+        if (sourceIndex === -1 || !isSamePinGroup(id, projects[targetIndex]?.id)) return;
+        const [project] = projects.splice(sourceIndex, 1);
+        projects.splice(Math.max(0, Math.min(targetIndex, projects.length)), 0, project);
+        orderChanged = true;
+        renderProjectList();
+    };
+
+    const moveProject = (id, direction) => {
+        const sourceIndex = projects.findIndex(project => project.id === id);
+        const targetIndex = sourceIndex + direction;
+        if (sourceIndex === -1 || targetIndex < 0 || targetIndex >= projects.length) return;
+        moveProjectToIndex(id, targetIndex);
+    };
+
+    const toggleProjectPin = id => {
+        if (hasUnsavedChanges) {
+            showStatus('กรุณาบันทึกหรือยกเลิกการแก้ไขก่อนเปลี่ยนการปักหมุด', 'info');
+            return;
+        }
+        const project = projects.find(item => item.id === id);
+        if (!project) return;
+        project.pinned = project.pinned !== true;
+        projects = [
+            ...projects.filter(item => item.pinned === true),
+            ...projects.filter(item => item.pinned !== true)
+        ];
+        orderChanged = true;
+        renderProjectList();
+    };
+
+    const saveProjectOrder = async () => {
+        if (!orderChanged || hasUnsavedChanges) return;
+        setBusy(true);
+        showStatus('กำลังบันทึกลำดับผลงานขึ้น GitHub…', 'info', 0);
+        try {
+            const result = await apiRequest('/api/projects', {
+                method: 'PUT',
+                body: JSON.stringify({ projects })
+            });
+            orderChanged = false;
+            renderProjectList();
+            showStatus(`บันทึกลำดับผลงานแล้ว (commit ${result.commit.slice(0, 7)}) เว็บจะอัปเดตหลัง GitHub Pages เผยแพร่ไฟล์`, 'success', 0);
+        } catch (error) {
+            renderProjectList();
+            showStatus(error.message, 'error', 0);
+        } finally {
+            setBusy(false);
+        }
     };
 
     const setImagePreview = imagePath => {
@@ -317,6 +448,7 @@
 
     const readFormProject = () => {
         const form = projectForm.elements;
+        const existingProject = projects.find(item => item.id === selectedId);
         const fields = [...extraFields.querySelectorAll('.admin-extra-row')].map(row => {
             const values = [...row.querySelectorAll('[data-extra-field]')].map(input => input.value.trim());
             return {
@@ -339,7 +471,8 @@
                 th: form.namedItem('descriptionTh').value.trim(),
                 en: form.namedItem('descriptionEn').value.trim()
             },
-            fields
+            fields,
+            pinned: existingProject?.pinned === true
         };
     };
 
@@ -396,6 +529,7 @@
             selectedId = project.id;
             autoSlug = false;
             hasUnsavedChanges = false;
+            orderChanged = false;
             renderProjectList();
             showStatus(`บันทึกข้อมูลและ sitemap แล้ว (commit ${result.commit.slice(0, 7)}) เว็บจะอัปเดตหลัง GitHub Pages เผยแพร่ไฟล์`, 'success', 0);
         } catch (error) {
@@ -466,6 +600,7 @@
         showStatus('ออกจากระบบแล้ว', 'info');
     });
     addProjectButton.addEventListener('click', newProject);
+    saveOrderButton.addEventListener('click', saveProjectOrder);
     document.getElementById('add-field-button').addEventListener('click', () => addExtraField());
     deleteButton.addEventListener('click', async () => {
         const project = projects.find(item => item.id === selectedId);
@@ -486,6 +621,7 @@
             });
             selectedId = null;
             hasUnsavedChanges = false;
+            orderChanged = false;
             projectCount.textContent = `(${projects.length})`;
             projectForm.reset();
             projectForm.hidden = true;
@@ -503,8 +639,14 @@
         }
     });
     projectForm.addEventListener('submit', saveCurrentProject);
-    projectForm.addEventListener('input', markUnsaved);
-    projectForm.addEventListener('change', markUnsaved);
+    projectForm.addEventListener('input', () => {
+        markUnsaved();
+        saveOrderButton.disabled = true;
+    });
+    projectForm.addEventListener('change', () => {
+        markUnsaved();
+        saveOrderButton.disabled = true;
+    });
     uploadInput.addEventListener('change', async () => {
         try {
             await uploadImage(uploadInput.files?.[0]);
